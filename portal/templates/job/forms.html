@@ -1,0 +1,32 @@
+{% extends 'master/base.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+
+                <h2 class="text-center mb-4 text-primary fw-bold">
+                    Job Post 
+                </h2>
+
+                <form method="post" class="p-4 bg-white shadow rounded-4" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ data.as_p }}
+
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill fw-semibold">{{btn}}</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+    </style>
+    
+{% endblock %}
+    

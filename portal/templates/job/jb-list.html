@@ -1,0 +1,102 @@
+{% extends 'master/base.html' %}
+
+{% block title %} All Jobs {% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h1 class="text-center mb-5 fw-bold">💼 All Jobs</h1>
+
+    {% include 'message.html' %}
+
+    <div class="row g-4">
+        
+        {% if request.user.user_type == 'Recruiter' %}
+            <a href="{% url 'jb_post' %}"class="btn btn-outline-primary btn-sm rounded-pill px-3">Job Post</a>
+        {% endif %}
+            
+        {% for x in data %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card job-card shadow-sm border-0 rounded-4 h-100 p-3 position-relative">
+
+                <!-- Bookmark -->
+                <div class="position-absolute top-0 end-0 p-3">
+                    <span class="fs-5">🤍</span>
+                </div>
+
+                <!-- Header -->
+                <div class="d-flex align-items-center gap-3">
+                    <img src="{{ x.posted_by.logo.url }}"
+                         class="rounded-3 border"
+                         style="width:65px; height:65px; object-fit:cover;" />
+
+                    <div>
+                        <h5 class="text-primary mb-1">{{ x.posted_by.company_name }}</h5>
+                        <h6 class="fw-bold mb-1">{{ x.title }}</h6>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mt-3">
+                    <p class="text-muted small mb-0 job-desc"
+                        data-full="{{ x.description }}">
+                    </p>
+                </div>
+
+                <!-- Skills -->
+                <div class="mt-3">
+                    <small class="text-muted d-block mb-1">Skills:</small>
+                    <span class="badge bg-light text-dark me-1">{{ x.skills }}</span>
+                </div>
+
+                <!-- Info -->
+                <div class="mt-3 small text-muted d-flex flex-wrap gap-2">
+                    <span class="badge bg-light text-dark">📍 {{ x.posted_by.address }}</span>
+                    <span class="badge bg-light text-dark">💼 {{ x.shift }}</span>
+                    <span class="badge bg-light text-dark">💰 {{ x.salary }}</span>
+                    <span class="badge bg-light text-dark">🤵‍♂️ {{ x.opening }}</span>
+                </div>
+
+                <hr>
+
+                <!-- Footer -->
+                <div class="d-flex justify-content-between align-items-center mt-auto">
+                    <small class="text-muted">📅 {{ x.deadline }}</small>
+
+                    <div class="d-flex gap-2">
+                        
+                        {% if request.user.is_authenticated %}
+                        
+                            {% if request.user.user_type == 'Recruiter' %}
+                                <a href="{% url 'delete' x.id %}" class="btn btn-outline-danger btn-sm rounded-pill px-3"> Delete</a>
+                                <a href="{% url 'candidate' x.id %}" class="btn btn-primary btn-sm rounded-pill px-3">Candidate</a>
+                                <a href="{% url 'update' x.id %}" class="btn btn-primary btn-sm rounded-pill px-3">Update</a>
+                            {% else %}
+                                <a href="{% url 'jb_apply' x.id %}" class="btn btn-success btn-sm rounded-pill px-3">Apply</a>
+                            {% endif %}
+                        {% endif %}
+                            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .job-card {
+        transition: all 0.3s ease;
+    }
+    .job-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    body {
+        background: linear-gradient(135deg, #74ebd5, #9face6);
+    }
+</style>
+{% endblock %}

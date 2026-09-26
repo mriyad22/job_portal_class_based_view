@@ -1,0 +1,40 @@
+{% extends 'master/base.html' %}
+
+{% block title %} Jobs Candidate {% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <table class="table table-bordered border-primary">
+            <thead>
+                <tr>
+                <th scope="col">Sl</th>
+                <th scope="col">Name</th>
+                <th scope="col">Applied at</th>
+                <th scope="col">Resume</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for x in data %}
+                    <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{x.applied_by.seeker.display_name}}</td>
+                    <td>{{x.applied_at}}</td>
+                    <td>
+                        <a href="{{x.resume.url}}">resume</a>
+                    </td>
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+    </style>
+    
+{% endblock %}
+    

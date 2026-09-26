@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% block title %}  {% endblock %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".job-desc").forEach(function (el, index) {
+                    let fullText = el.getAttribute("data-full");
+                    let limit = 120;
+
+                    if (fullText.length > limit) {
+                        let shortText = fullText.substring(0, limit);
+
+                        el.innerHTML = `
+                            ${shortText}<span id="dots${index}">...</span>
+                            <span id="more${index}" style="display:none;">${fullText.substring(limit)}</span>
+                            <a href="javascript:void(0)" 
+                              onclick="toggleText(${index})" 
+                              id="btn${index}" 
+                              class="text-primary fw-semibold"> See more</a>
+                        `;
+                    } else {
+                        el.innerHTML = fullText;
+                    }
+                });
+            });
+
+            function toggleText(id) {
+                let dots = document.getElementById("dots" + id);
+                let more = document.getElementById("more" + id);
+                let btn = document.getElementById("btn" + id);
+
+                if (dots.style.display === "none") {
+                    dots.style.display = "inline";
+                    more.style.display = "none";
+                    btn.innerHTML = " See more";
+                } else {
+                    dots.style.display = "none";
+                    more.style.display = "inline";
+                    btn.innerHTML = " See less";
+                }
+            }
+        </script>
+
+
+  </head>
+  <body>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    
+
+    {% include 'master/nav.html' %}
+
+    
+    {% block content %}
+        
+    {% endblock %}
+        
+  </body>
+</html>
