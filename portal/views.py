@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, ListView
@@ -166,9 +165,6 @@ class UserProfileView(LoginRequiredMixin, View):
         }
 
         return render(request, 'job/forms.html', con)
-
-
-
 
 
 
